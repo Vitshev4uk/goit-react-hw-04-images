@@ -8,12 +8,12 @@ function ImageGalleryItem(props) {
   const [selectedImage, setSelectedImage] = React.useState('');
 
   const openModal = (selectedImage) => {
-    setIsModalOpen(true);
+    setIsModalOpen(!isModalOpen);
     setSelectedImage(selectedImage)
   };
 
   const closeModal = () => {
-    setIsModalOpen(false);
+    setIsModalOpen(!isModalOpen);
     setSelectedImage('')
   };
 

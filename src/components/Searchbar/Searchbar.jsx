@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 function Searchbar(props) {
   const [value, setValue] = React.useState('');
-  const [btnText, setBtnText] = React.useState('Load more');
   const [submitted, setSubmitted] = React.useState(false);
 
   const  handleInputValue = event => {
@@ -13,7 +12,7 @@ function Searchbar(props) {
   };
 
   const onClickBtn = () => {
-    setSubmitted(true);
+    setSubmitted(!submitted);
   };
 
   const { onSubmit } = props;
