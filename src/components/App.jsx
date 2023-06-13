@@ -17,8 +17,15 @@ function App() {
     setInputValue(event);
     setImages([]);
     setPage(1);
-    setIsLoading(true);
+    // setIsLoading(true);
     setSubmited(true);
+    if (event === inputValue) {
+      setIsLoading(false);
+      setSubmited(false);
+      alert('Same image search query!!!')
+    } else {
+      setIsLoading(true);
+    }
   };
 
   useEffect( () => {
