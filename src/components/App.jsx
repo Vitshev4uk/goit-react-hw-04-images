@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-// import { Component } from 'react';
 import css from 'styles.css/App/App.module.css';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -12,7 +11,6 @@ function App() {
   const [page, setPage] = React.useState(1);
   const [isLoading, setIsLoading] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
-  const [prevInputValue] = React.useState(inputValue);
   const [submitted, setSubmited] = React.useState(false);
 
   const onSubmitForm = event => {
@@ -20,33 +18,37 @@ function App() {
     setImages([]);
     setPage(1);
     setIsLoading(true);
+    setSubmited(true);
   };
 
-  useEffect(() => {
-    const fetchData = async() => {
-    if (prevInputValue !== inputValue) {
-      const key = '35632992-e10a39a36f128534b3670000b';
-      const URL = 'https://pixabay.com/api/';
-      const limit = 12;
+  useEffect( () => {
+    const fetchData = async () => {
+      if (submitted) {
+        const key = '35632992-e10a39a36f128534b3670000b';
+        const URL = 'https://pixabay.com/api/';
+        const limit = 12;
 
-      try {
-        const response = await axios.get(
-          `${URL}?key=${key}&q=${inputValue}&image_type=photo&orientation=horizontal&per_page=${limit}&page=${page}`
-        );
-        const data = response.data.hits;
-        console.log(data);
-        setImages(prevImages => [...prevImages, ...data]);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setSubmited(true);
+        try {
+          const response = await axios.get(
+            `${URL}?key=${key}&q=${inputValue}&image_type=photo&orientation=horizontal&per_page=${limit}&page=${page}`
+          );
+          const data = response.data.hits;
+          console.log(data);
+          setImages(prevImages => [...prevImages, ...data]);
+          setIsLoading(false);
+          if (data.length < 1) {
+            setSubmited(false);
+            // setIsLoading(false);
+          }
+        } catch (error) {
+          console.log(error);
+        } finally {
+        }
       }
-    }
-    }
-    fetchData();
-    
-  }, [prevInputValue, inputValue, page]);
+    };
+
+    fetchData(inputValue);
+  }, [submitted, inputValue, page]);
 
   return (
     <div className={css.App}>

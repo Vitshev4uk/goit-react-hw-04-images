@@ -22,7 +22,7 @@ function Modal(props) {
     };
 
 
-  });
+  }, [close]);
 
   return createPortal(
     <div className={css.Overlay} onClick={close}>
